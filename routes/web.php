@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Expr\PostDec;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,15 +23,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/ruta', function(){
-    return "Hola Mundo";
-});
-
-Route::post('/ruta/post', function(){
-   return "POST OK"; 
-});
-
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+Route::get('/contacts/create',[ContactController::class, 'create'])->name('contacts.create');
+Route::post('/contacts/', [ContactController::class, 'store'])->name('contacts.store');
