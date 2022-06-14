@@ -26,7 +26,7 @@ class ContactController extends Controller
     public function create()
     {
         //
-        return view('contact');
+        return view('contacts.create');
     }
 
     /**
@@ -38,19 +38,16 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         //
-       $request->validate([
+       $data = $request->validate([
             'name'=>'required',
             'email'=> 'required|email',
-            'phone_number'=>'required|digits:9',
+            'phone_number'=>'required|digits:8',
             'age'=> 'required|numeric|min:1|max:80',
        ]);
        
-        if (is_null($request->get('name'))){
-            return back()->withErrors([
-                'name' => 'This field is required',
-            ]);
-        }
-        return response("Contact Created");
+        Contact::create($data);
+
+        return redirect()->route('home');
     }
 
     /**
@@ -73,6 +70,7 @@ class ContactController extends Controller
     public function edit(Contact $contact)
     {
         //
+        return view('contacts.edit', compact('contact'));
     }
 
     /**
@@ -85,6 +83,16 @@ class ContactController extends Controller
     public function update(Request $request, Contact $contact)
     {
         //
+        $data = $request->validate([
+            'name'=>'required',
+            'email'=> 'required|email',
+            'phone_number'=>'required|digits:8',
+            'age'=> 'required|numeric|min:1|max:80',
+       ]);
+
+       $contact->update($data);
+
+       return redirect()->route('home');
     }
 
     /**
