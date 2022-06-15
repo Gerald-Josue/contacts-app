@@ -75,6 +75,7 @@ class ContactController extends Controller
     {
         //
         $this->authorize('update', $contact);
+
         return view('contacts.edit', compact('contact'));
     }
 
@@ -111,7 +112,7 @@ class ContactController extends Controller
 
         $contact->delete();
 
-        return redirect('home')->with('alert', [
+        return back()->with('alert', [
             'message' => "Contact $contact->name successfully deleted",
             'type' => 'success',
         ]);
