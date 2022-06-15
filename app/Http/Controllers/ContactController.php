@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
+namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreContactRequest;
+use App\Models\Contact;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Gate;
 
 class ContactController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -39,19 +40,15 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreContactRequest $request)
     {
         //
-       $data = $request->validate([
-            'name'=>'required',
-            'email'=> 'required|email',
-            'phone_number'=>'required|digits:8',
-            'age'=> 'required|numeric|min:1|max:80',
-       ]);
-       
-       auth()->user()->contacts()->create($data);
+        $contact = auth()->user()->contacts()->create($request->validated());
 
-        return redirect()->route('home');
+        return redirect('home')->with('alert', [
+            'message' => "Contact $contact->name successfully saved",
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -63,10 +60,9 @@ class ContactController extends Controller
     public function show(Contact $contact)
     {
         //
-        $this->authorize('view',$contact);
+        $this->authorize('view', $contact);
 
         return view('contacts.show', compact('contact'));
-
     }
 
     /**
@@ -89,21 +85,17 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contact $contact)
+    public function update(StoreContactRequest $request, Contact $contact)
     {
         //
         $this->authorize('update', $contact);
 
-        $data = $request->validate([
-            'name'=>'required',
-            'email'=> 'required|email',
-            'phone_number'=>'required|digits:8',
-            'age'=> 'required|numeric|min:1|max:80',
-       ]);
+        $contact->update($request->validated());
 
-       $contact->update($data);
-
-       return redirect()->route('home');
+        return redirect('home')->with('alert', [
+            'message' => "Contact $contact->name successfully updated",
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -119,6 +111,9 @@ class ContactController extends Controller
 
         $contact->delete();
 
-        return redirect()->route('home');
+        return redirect('home')->with('alert', [
+            'message' => "Contact $contact->name successfully deleted",
+            'type' => 'success',
+        ]);
     }
 }
