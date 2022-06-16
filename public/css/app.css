@@ -10356,7 +10356,12 @@ textarea.form-control-lg {
 }
 
 .profile-picture {
-    border-radius: 50%;
+    border-radius: 100%;
     width: 4rem;
     height: 4rem;
+}
+
+.profile-picture-show {
+  width: 14rem;
+  height: 14rem;
 }

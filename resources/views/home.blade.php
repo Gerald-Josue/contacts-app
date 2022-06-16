@@ -8,16 +8,27 @@
         <div class="col-md-4 mb-3">
           <div class="card text-center">
             <div class="card-body">
-              <a class="text-decoration-none text-white" href="{{ route('contacts.show', $contact->id) }}">
+              <div class="d-flex justify-content-center mb-2">
+                <a href="{{ route('contacts.show', $contact->id) }}">
+                  <img class="profile-picture"
+                    src="{{ Storage::url($contact->profile_picture) }}">
+                </a>
+              </div>
+              <a class="text-decoration-none text-white"
+                href="{{ route('contacts.show', $contact->id) }}">
                 <h3 class="card-title text-capitalize">{{ $contact->name }}</h3>
               </a>
               <p class="m-2">{{ $contact->phone_number }}</p>
-              <a href="{{ route('contacts.edit', $contact->id) }}" class="btn btn-secondary mb-2">Edit Contact</a>
-              <form action ="{{ route('contacts.destroy', $contact->id)}}" method="POST">
-              @csrf
-              @method("DELETE")
-              <button type="submit" class="btn btn-danger mb-2"> Delete Contact</button>
+              <a href="{{ route('contacts.edit', $contact->id) }}"
+                class="btn btn-secondary mb-2">Edit Contact</a>
+              <form action="{{ route('contacts.destroy', $contact->id) }}"
+                method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger mb-2"> Delete
+                  Contact</button>
               </form>
+
             </div>
           </div>
         </div>

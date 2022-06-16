@@ -5,12 +5,20 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
-          <div class="card-header">Create New Contact</div>
+          <div class="card-header">Edit New Contact</div>
 
           <div class="card-body">
-            <form method="POST" action="{{ route('contacts.update', $contact->id) }}">
+
+            <div class="d-flex justify-content-center mb-4">
+              <img class="profile-picture-show"
+                src="{{ Storage::url($contact->profile_picture) }}">
+            </div>
+
+            <form method="POST"
+              action="{{ route('contacts.update', $contact->id) }}"
+              enctype="multipart/form-data">
               @csrf
-              @method("PUT")
+              @method('PUT')
               <div class="row mb-3">
                 <label for="name"
                   class="col-md-4 col-form-label text-md-end">Name</label>
@@ -18,7 +26,8 @@
                 <div class="col-md-6">
                   <input id="name" type="text"
                     class="form-control @error('name') is-invalid @enderror"
-                    name="name" value="{{ old('name') ?? $contact->name }}" autocomplete="name" autofocus>
+                    name="name" value="{{ old('name') ?? $contact->name }}"
+                    autocomplete="name" autofocus>
 
                   @error('name')
                     <span class="invalid-feedback" role="alert">
@@ -35,7 +44,9 @@
                 <div class="col-md-6">
                   <input id="phone_number" type="tel"
                     class="form-control @error('name') is-invalid @enderror"
-                    name="phone_number" value="{{ old('phone_number') ?? $contact->phone_number }}" autocomplete="phone_number">
+                    name="phone_number"
+                    value="{{ old('phone_number') ?? $contact->phone_number }}"
+                    autocomplete="phone_number">
 
                   @error('phone_number')
                     <span class="invalid-feedback" role="alert">
@@ -53,7 +64,8 @@
                 <div class="col-md-6">
                   <input id="email" type="text"
                     class="form-control @error('email') is-invalid @enderror"
-                    name="email" value="{{ old('email') ?? $contact->email }}" autocomplete="email">
+                    name="email" value="{{ old('email') ?? $contact->email }}"
+                    autocomplete="email">
 
                   @error('email')
                     <span class="invalid-feedback" role="alert">
@@ -71,7 +83,8 @@
                 <div class="col-md-6">
                   <input id="age" type="text"
                     class="form-control @error('age') is-invalid @enderror"
-                    name="age" value="{{ old('age') ?? $contact->age }}" autocomplete="age">
+                    name="age" value="{{ old('age') ?? $contact->age }}"
+                    autocomplete="age">
 
                   @error('age')
                     <span class="invalid-feedback" role="alert">
@@ -82,6 +95,24 @@
                 </div>
               </div>
 
+              <div class="row mb-3">
+                <label for="profile_picture"
+                  class="col-md-4 col-form-label text-md-end">Profile
+                  Picture</label>
+
+                <div class="col-md-6">
+                  <input id="profile_picture" type="file"
+                    class=" @error('profile_picture') is-invalid @enderror"
+                    name="profile_picture">
+
+                  @error('profile_picture')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+
+                </div>
+              </div>
 
               <div class="row mb-0">
                 <div class="col-md-6 offset-md-4">
