@@ -39,6 +39,6 @@
         <a href="{{ route('contacts.create') }}">Add Contact</a>
       </div>
     @endforelse
-
+    {{ $contacts->links() }}
   </div>
 @endsection

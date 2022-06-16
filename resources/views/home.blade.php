@@ -40,7 +40,7 @@
           <a href="{{ route('contacts.create') }}">Add Contact</a>
         </div>
       @endforelse
-
+     
     </div>
   </div>
 @endsection
